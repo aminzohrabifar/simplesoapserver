@@ -8,16 +8,16 @@ import (
 	"strings"
 )
 
-func SoapRequestFieldParse(inputs []string, b []byte) map[string][]string {
+func SoapRequestFieldParse(inputs []string, b []byte) (map[string][]string, error) {
+	var err error
+	var match []string
+	var input string
 	export := make(map[string][]string)
-	for _, input := range inputs {
-		match, err := SoapFindField(b, input)
-		if err != nil {
-			log.Println(string(err.Error()))
-		}
+	for _, input = range inputs {
+		match, err = SoapFindField(b, input)
 		export[input] = match
 	}
-	return export
+	return export, err
 }
 
 func SoapFindField(b []byte, mustbefind string) ([]string, error) {
