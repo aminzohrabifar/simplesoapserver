@@ -2,8 +2,6 @@ package simplesoapserver
 
 import (
 	"github.com/pkg/errors"
-	"log"
-	"reflect"
 	"regexp"
 	"strings"
 )
@@ -42,26 +40,6 @@ func SoapFindField(b []byte, mustbefind string) ([]string, error) {
 		export = append(export, finded)
 	}
 	return export, err
-}
-
-func SetValueToStruct(obj any, field string, value any) {
-	ref := reflect.ValueOf(obj)
-
-	// if its a pointer, resolve its value
-	if ref.Kind() == reflect.Ptr {
-		ref = reflect.Indirect(ref)
-	}
-
-	if ref.Kind() == reflect.Interface {
-		ref = ref.Elem()
-	}
-
-	if ref.Kind() != reflect.Struct {
-		log.Fatal("unexpected type")
-	}
-
-	prop := ref.FieldByName(field)
-	prop.Set(reflect.ValueOf(value))
 }
 
 func FindSoapMethod(b []byte, mustbefinds []string) (string, error) {
