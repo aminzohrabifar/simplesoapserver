@@ -9,7 +9,7 @@ There are indeed many SOAP packages available for the Go language, but these pac
 ## Features
 
 - Very Simple and Usefull
-- Parse Array Inputs
+- <b>Parse Array Inputs</b>
 - Parse Methode
 - Simple Response
 
@@ -76,7 +76,10 @@ func main() {
 		// Get Varable From Body
 		var AddRequest []string
 		AddRequest = append(AddRequest, "UserName", "Password", "MessageBody", "RecipientNumber")
-		match := simplesoapserver.SoapRequestFieldParse(AddRequest, b)
+		match ,err := simplesoapserver.SoapRequestFieldParse(AddRequest, b)
+		if err != nil {
+			log.Println(err)
+		}
 		
 		// Get Method Used From Body
 		var AllMethodes []string
@@ -105,14 +108,15 @@ func main() {
 
 
 ```go
-  match := simplesoapserver.SoapRequestFieldParse(AddRequest, b)
+  match,err := simplesoapserver.SoapRequestFieldParse(AddRequest, b)
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `match` | `map[string][]string` | a slice of passed values |
-| `AddRequest` | `[]string` | a slice of variables needed for processing |
-| `b` | `[]byte` | the sent body text |
+| Parameter | Type     | Description                                     |
+| :-------- | :------- |:------------------------------------------------|
+| `match` | `map[string][]string` | a slice of passed values                        |
+| `err`      | `error` | returns an error if passed values are not found |
+| `AddRequest` | `[]string` | a slice of variables needed for processing      |
+| `b` | `[]byte` | the sent body text                              |
 
 #### To determine the sent methods, use the following function:
 
